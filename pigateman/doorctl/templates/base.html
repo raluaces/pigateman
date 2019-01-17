@@ -1,0 +1,67 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="title" content="PiGateMan"/>
+    <meta name="description" content="Home Security Automation"/>
+
+    <meta property="og:title" content="PiGateMan">
+    <meta property="og:description" content="Home Security Automation">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://{{ request.META.HTTP_HOST }}{% url "landing" %}">
+    <meta property="og:image" content="http://{{ request.META.HTTP_HOST }}{% static "images/logo.png" %}">
+    <meta property="og:image:type" content="image/png">
+
+    <title>PiGateMan - {% block title %}{% endblock %}</title>
+
+    <link rel="icon" href="{% static "favicon.ico" %}?v=1">
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <script type="text/javascript" src="{% static 'jquery/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/pigateman.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <link href="{% static 'bootstrap/css/ie10-viewport-bug-workaround.css' %}" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    {% block head %}
+    {% endblock %}
+
+</head>
+<body>
+{% block menu %}
+
+
+<div class="navbar navbar-dark bg-dark box-shadow">
+    <div class="container d-flex justify-content-between">
+        <a href="#" class="navbar-brand d-flex align-items-center">
+            <i class="fas fa-door-open"></i>
+            <strong>PiGateMan</strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+{% endblock %}
+
+</br></br>
+<div class="container">
+    <div class="col-lg-12">
+        {% block body %}{% endblock %}
+    </div>
+</div>
+<!--- Footer --->
+<script src="{% static 'bootstrap/js/ie10-viewport-bug-workaround.js' %}"></script>
+</body>
+</html>

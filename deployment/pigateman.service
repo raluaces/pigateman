@@ -1,0 +1,16 @@
+[Unit]
+Description=pigateman gunicorn service
+After=network.target
+
+[Service]
+User=nginx
+Group=nginx
+WorkingDirectory=/opt/pigateman
+ExecStart=/opt/pigateman/venv/bin/gunicorn pigateman.wsgi:application --workers 2 -b 127.0.0.1:8000 --log-file /var/log/pigateman.log --log-level info
+ExecReload=/bin/kill -s HUP
+ExecStop=/bin/kill -s TERM
+PrivateTmp=true
+
+
+[Install]
+WantedBy=multi-user.target

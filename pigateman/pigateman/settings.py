@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import RPi.GPIO as GPIO
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,6 +26,9 @@ SECRET_KEY = '(btravo=dph)1qfv8t8ne+hm9dr(of@2z1*sqfnrczupjpgr)='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+LOG_LEVEL = "INFO"
+LOG_FILE = "door.log"
+
 ALLOWED_HOSTS = ['*']
 
 
@@ -37,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'doorctl'
 ]
 
 MIDDLEWARE = [
@@ -51,10 +56,15 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'pigateman.urls'
 
+STATICFILES_DIRS = [os.path.join(BASE_DIR, '..', 'static')]
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, '..', 'static_root')
+
+TEMPLATES_DIRS = [os.path.join(BASE_DIR, 'templates')]
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': TEMPLATES_DIRS,
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,6 +90,33 @@ DATABASES = {
     }
 }
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': '%(asctime)s : '
+                      '%(levelname)s %(module)s.%(funcName)s %(lineno)d : '
+                      '%(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+    },
+    'handlers': {
+        'logfile': {
+            'level': LOG_LEVEL,
+            'class': 'logging.FileHandler',
+            'filename': LOG_FILE,
+            'formatter': 'standard',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['logfile'],
+            'level': LOG_LEVEL,
+            'propagate': True,
+        },
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -104,17 +141,21 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+TIME_ZONE = 'America/Los_Angeles'
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.1/howto/static-files/
-
-STATIC_URL = '/static/'
+# Initialize GPIO, disable warnings we might be using those ports.
+# Make sure all relays are not closed.
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(5, GPIO.OUT)
+GPIO.setup(6, GPIO.OUT)
+GPIO.setup(13, GPIO.OUT)
+GPIO.setup(19, GPIO.OUT)
+GPIO.output(5, 1)
+GPIO.output(6, 1)
+GPIO.output(13, 1)
+GPIO.output(19, 1)

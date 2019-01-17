@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Door Entry{% endblock %}
+
+{% block body %}
+
+
+<div class="container">
+<div class="card mb-4 box-shadow">
+    <div class="card-body">
+        <ul class="list-unstyled mt-3 mb-4 text-center">
+            <li>{{ key_message }}</li>
+        </ul>
+        <form id="open-door" class="form-horizontal">
+            {% csrf_token %}
+            <input hidden name="accessKey" class="form-control" value="{{ key }}" required>
+                <button {% if valid_key %}{% else %} disabled {% endif %} type="submit" id="open-door-button" class="btn btn-lg btn-block btn-primary">Open Gate</button>
+<br>
+
+        </form>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 align-self-center">
+                    <div class="progress" id="progressWhole" style="height: 30px;" hidden>
+                        <div class="progress-bar bg-success progress-bar-striped progress-bar-animated active" role="progressbar" id="progresstimebar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%">7</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</div>
+
+
+
+{% endblock %}
