@@ -7,4 +7,4 @@ class accessKey(models.Model):
     use_limit = models.BigIntegerField(default=0)
     created = models.DateTimeField(auto_now=True)
     expires = models.DateTimeField(null=True, blank=True, default=None)
-    unlock_time = models.IntegerField(blank=True, default=7)
+    unlock_time = models.FloatField(blank=True, default=7.0)

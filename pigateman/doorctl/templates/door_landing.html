@@ -1,33 +1,188 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block title %}Door Entry{% endblock %}
-
+{% block head %}
+<script type="text/javascript" src="{% static 'js/keypad.js' %}"></script>
+<link href="{% static 'css/keypad.css' %}" rel="stylesheet">
+{% endblock %}
 {% block body %}
 
 
-<div class="container">
-<div class="card mb-4 box-shadow">
-    <div class="card-body">
-        <ul class="list-unstyled mt-3 mb-4 text-center">
-            <li>{{ key_message }}</li>
-        </ul>
-        <form id="open-door" class="form-horizontal">
-            {% csrf_token %}
-            <input hidden name="accessKey" class="form-control" value="{{ key }}" required>
-                <button {% if valid_key %}{% else %} disabled {% endif %} type="submit" id="open-door-button" class="btn btn-lg btn-block btn-primary">Open Gate</button>
-<br>
-
-        </form>
 
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 align-self-center">
-                    <div class="progress" id="progressWhole" style="height: 30px;" hidden>
+                    <div class="progress" id="progressWhole" style="height: 50px;" hidden>
                         <div class="progress-bar bg-success progress-bar-striped progress-bar-animated active" role="progressbar" id="progresstimebar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%">7</div>
                     </div>
                 </div>
             </div>
         </div>
+<br>
+        {% if keypad %}
+<div class="row" id="keyPadId">
+        <div class="row justify-content-center">
+            <div class="my-sidebar justify-content-center text-center">
+                <div class="input-group input-group-lg col-sm-10" style="width: 375px">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-lg" >Code</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Large" id="telNumber" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <br>
+                <div class="num-pad text-center" style="padding-left: 45px">
+                    <div class="span4">
+                        <div class="num">
+                            <div class="txt">
+                                1
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="num">
+                            <div class="txt">
+                                2 <span class="small">
+                                    <p>
+                                        ABC</p>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="num">
+                            <div class="txt">
+                                3 <span class="small">
+                                    <p>
+                                        DEF</p>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="num">
+                            <div class="txt">
+                                4 <span class="small">
+                                    <p>
+                                        GHI</p>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="num">
+                            <div class="txt">
+                                5 <span class="small">
+                                    <p>
+                                        JKL</p>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="num">
+                            <div class="txt">
+                                6 <span class="small">
+                                    <p>
+                                        MNO</p>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="num">
+                            <div class="txt">
+                                7 <span class="small">
+                                    <p>
+                                        PQRS</p>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="num">
+                            <div class="txt">
+                                8 <span class="small">
+                                    <p>
+                                        TUV</p>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="num">
+                            <div class="txt">
+                                9 <span class="small">
+                                    <p>
+                                        WXYZ</p>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="backspace">
+                            <div class="txt">
+                                <i class="fas fa-backspace"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="num">
+                            <div class="txt">
+                                0 <span class="small">
+                                    <p>
+                                        +</p>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="num">
+                            <div class="txt">
+                                X
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">
+                </div>
+                <form id="open-door" class="form-horizontal col-sm-8 text-center justify-content-center">
+                    {% csrf_token %}
+
+                    <input hidden name="accessKey" class="form-control" id="accessKeyId" value="{{ key }}" required>
+                    <input hidden name="unlockTime" class="form-control" value="7" required>
+                    <button type="submit" id="open-door-button" class="btn btn-lg btn-block btn-primary" style="width: 345px">ENTER</button>
+                </form>
+            </div>
+        </div>
+</div>
+<style>
+    .my-sidebar {
+        width: 400px;
+        align-content: center;
+    }
+
+    @media (max-width: 200px) {
+        .my-sidebar {
+            display: none;
+        }
+    }
+</style>
+        {% else %}
+
+<div class="container">
+    <div class="card mb-auto box-shadow">
+        <div class="card-body">
+            <br>
+        <ul class="list-unstyled mt-3 mb-4 text-center">
+            <li>{{ key_message }}</li>
+        </ul>
+        <form id="open-door" class="form-horizontal">
+            {% csrf_token %}
+            <input hidden name="accessKey" class="form-control" id="accessKeyId" value="{{ key }}" required>
+            <input hidden name="unlockTime" class="form-control" value="{{ unlock_time }}" required>
+            <button {% if valid_key %}{% else %} disabled {% endif %} type="submit" id="open-door-button" class="btn btn-lg btn-block btn-primary">ENTER</button>
+        </form>
+        {% endif %}
 
     </div>
 

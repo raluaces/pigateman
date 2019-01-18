@@ -4,6 +4,7 @@ from django.utils import timezone
 from doorctl.models import accessKey
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.http import require_http_methods
+from ratelimit.decorators import ratelimit
 from django.shortcuts import render
 import time
 
@@ -39,15 +40,18 @@ def check_key(use_key):
     response['message'] = 'Valid Key'
     return response
 
-
+@ratelimit(key='header:HTTP-X-FORWARDED-FOR', rate='10/m', block=True)
 def landing(request):
     use_key = request.GET.get('key', '')
+    keypad = False
     key_data = check_key(use_key)
     key_message = key_data['message']
     if key_data['valid_key']:
         unlock_time = key_data['key_object'].unlock_time
     else:
         unlock_time = 0
+        if use_key == '':
+            keypad = True
     return render(
         request,
         'door_landing.html',
@@ -55,17 +59,19 @@ def landing(request):
             "key_message": key_message,
             "valid_key": key_data['valid_key'],
             "key": use_key,
-            "unlock_time": unlock_time
+            "unlock_time": unlock_time,
+            "keypad": keypad
         }
     )
 
 
+@ratelimit(key='header:HTTP-X-FORWARDED-FOR', rate='10/m', block=True)
 @require_http_methods(["POST"])
 def ajax_door(request):
     use_key = request.POST['accessKey']
     key_data = check_key(use_key)
-    if key_data['valid_key'] != True:
-        return HttpResponse("Error", status=401)
+    if not key_data['valid_key']:
+        return HttpResponse(key_data['message'], status=401)
     accessKey.objects.filter(key=use_key).update(uses=key_data['key_object'].uses + 1)
     logger.info("Door opened with key: {}".format(use_key))
     GPIO.output(5, 0)
