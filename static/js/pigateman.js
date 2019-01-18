@@ -4,8 +4,8 @@ $(document).ready(function() {
     $('#open-door').submit(function(event){
         event.preventDefault();
         //console.log('');
-        document.getElementById("alertBox").hidden = true;
         postData = $('#open-door').serialize();
+        console.log(postData)
         postDoorData(postData);
     });
 
