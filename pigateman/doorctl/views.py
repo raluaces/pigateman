@@ -44,14 +44,18 @@ def check_key(use_key):
 def landing(request):
     use_key = request.GET.get('key', '')
     keypad = False
-    key_data = check_key(use_key)
-    key_message = key_data['message']
+    if use_key == '':
+        key_data=dict()
+        key_data['valid_key'] = False
+        keypad = True
+        key_message = None
+    else:
+        key_data = check_key(use_key)
+        key_message = key_data['message']
     if key_data['valid_key']:
         unlock_time = key_data['key_object'].unlock_time
     else:
         unlock_time = 0
-        if use_key == '':
-            keypad = True
     return render(
         request,
         'door_landing.html',

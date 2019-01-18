@@ -4,6 +4,7 @@ $(document).ready(function() {
     $('#open-door').submit(function(event){
         event.preventDefault();
         //console.log('');
+        document.getElementById("alertBox").hidden = true;
         postData = $('#open-door').serialize();
         postDoorData(postData);
     });
@@ -70,6 +71,9 @@ function postDoorData(postData) {
             document.getElementById("open-door-button").classList.add('btn-danger');
             document.getElementById("open-door-button").firstChild.data = 'BAD KEY'
             restore_button()
+            console.log(data.responseText)
+            document.getElementById("alertBox").textContent = data.responseText;
+            document.getElementById("alertBox").hidden = false;
         },
         complete: function(){
             // console.log('complete');
