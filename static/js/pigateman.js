@@ -5,7 +5,6 @@ $(document).ready(function() {
         event.preventDefault();
         //console.log('');
         postData = $('#open-door').serialize();
-        console.log(postData)
         postDoorData(postData);
     });
 
@@ -58,6 +57,8 @@ function postDoorData(postData) {
             document.getElementById("open-door-button").classList.remove('btn-success');
             document.getElementById("open-door-button").classList.add('btn-info');
             document.getElementById("progresstimebar").textContent = '';
+            document.getElementById("keypadCard").hidden = false;
+            document.getElementById("messageBody").innerHTML = data;
         },
         error: function(data, textStatus, errorThrown) {
             // console.log('error: '+data.responseText);
@@ -72,8 +73,9 @@ function postDoorData(postData) {
             document.getElementById("open-door-button").classList.remove('btn-success');
             document.getElementById("open-door-button").classList.add('btn-danger');
             document.getElementById("open-door-button").firstChild.data = 'BAD KEY'
-            restore_button()
-            console.log(data.responseText)
+            $('#telNumber').val('');
+            $('#accessKeyId').val('');
+            restore_button();
             document.getElementById("alertBox").textContent = data.responseText;
             document.getElementById("alertBox").hidden = false;
         },

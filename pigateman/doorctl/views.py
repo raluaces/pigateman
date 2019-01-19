@@ -84,4 +84,8 @@ def ajax_door(request):
     GPIO.output(5, 0)
     time.sleep(key_data['key_object'].unlock_time)
     GPIO.output(5, 1)
-    return HttpResponse("Success", status=200)
+    if key_data['key_object'].instruction_message is not '':
+        response = key_data['key_object'].instruction_message
+    else:
+        response = 'Success'
+    return HttpResponse(response, status=200)
