@@ -37,6 +37,8 @@ function postDoorData(postData) {
             //  console.log('beforeSend');
             document.getElementById("open-door-button").disabled = true;
             document.getElementById("open-door-button").hidden = true;
+            document.getElementById("alertBox").textContent = '';
+            document.getElementById("alertBox").hidden = true;
             try {
                 document.getElementById("keyPadId").hidden = true;
             }catch(err){
@@ -55,7 +57,7 @@ function postDoorData(postData) {
             document.getElementById("open-door-button").firstChild.data = 'Door Locked'
             document.getElementById("open-door-button").classList.remove('btn-success');
             document.getElementById("open-door-button").classList.add('btn-info');
-            document.getElementById("progresstimebar").textContent = 'Unlock Cycle Complete';
+            document.getElementById("progresstimebar").textContent = '';
         },
         error: function(data, textStatus, errorThrown) {
             // console.log('error: '+data.responseText);

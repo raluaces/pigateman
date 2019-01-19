@@ -20,4 +20,15 @@ $(document).ready(function () {
         $(telNumber).val(value.substring(0, value.length - 1));
         $(telNumber2).val(value.substring(0, value.length - 1));
     });
+
+    $("#telNumber").keyup(function(){
+        var fieldEntry = $('#telNumber').val();
+        console.log(fieldEntry);
+        var postEntry = $('#accessKeyId');
+        postEntry.val(fieldEntry)
+    });
+
 });
+
+
+

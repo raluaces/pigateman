@@ -40,12 +40,13 @@ def check_key(use_key):
     response['message'] = 'Valid Key'
     return response
 
+
 @ratelimit(key='header:HTTP-X-FORWARDED-FOR', rate='10/m', block=True)
 def landing(request):
     use_key = request.GET.get('key', '')
     keypad = False
     if use_key == '':
-        key_data=dict()
+        key_data = dict()
         key_data['valid_key'] = False
         keypad = True
         key_message = None
@@ -54,6 +55,8 @@ def landing(request):
         key_message = key_data['message']
     if key_data['valid_key']:
         unlock_time = key_data['key_object'].unlock_time
+        if key_data['key_object'].instruction_message is not '':
+            key_message = key_data['key_object'].instruction_message
     else:
         unlock_time = 0
     return render(

@@ -178,11 +178,11 @@
         <div class="card-body">
             <br>
         <ul class="list-unstyled mt-3 mb-4 text-center">
-            <li>{{ key_message }}</li>
+            <li>{{ key_message|safe }}</li>
         </ul>
         <form id="open-door" class="form-horizontal">
             {% csrf_token %}
-            <input hidden name="accessKey" class="form-control" id="accessKeyId" value="{{ key }}" required>
+            <input hidden name="accessKey" class="form-control" value="{{ key }}" required>
             <input hidden name="unlockTime" class="form-control" value="{{ unlock_time }}" required>
             <button {% if valid_key %}{% else %} disabled {% endif %} type="submit" id="open-door-button" class="btn btn-lg btn-block btn-primary">ENTER</button>
         </form>
