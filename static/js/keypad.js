@@ -7,6 +7,11 @@ $(document).ready(function () {
         var telNumber2 = $('#accessKeyId');
         $(telNumber).val(telNumber.val() + text);
         $(telNumber2).val(telNumber2.val() + text);
+        if (telNumber.val().length == 0 ) {
+            document.getElementById("open-door-button").disabled = true;
+        } else {
+            document.getElementById("open-door-button").disabled = false;
+        }
     });
 
 
@@ -18,12 +23,22 @@ $(document).ready(function () {
         var value = telNumber.val();
         $(telNumber).val(value.substring(0, value.length - 1));
         $(telNumber2).val(value.substring(0, value.length - 1));
+        if (telNumber.val().length == 0 ) {
+            document.getElementById("open-door-button").disabled = true;
+        } else {
+            document.getElementById("open-door-button").disabled = false;
+        }
     });
 
     $("#telNumber").keyup(function(){
         var fieldEntry = $('#telNumber').val();
         var postEntry = $('#accessKeyId');
         postEntry.val(fieldEntry)
+        if (fieldEntry.length == 0 ) {
+            document.getElementById("open-door-button").disabled = true;
+        } else {
+            document.getElementById("open-door-button").disabled = false;
+        }
     });
 
 });
