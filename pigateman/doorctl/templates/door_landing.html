@@ -196,7 +196,7 @@
             {% csrf_token %}
             <input hidden name="accessKey" class="form-control" value="{{ key }}" required>
             <input hidden name="unlockTime" class="form-control" value="{{ unlock_time }}" required>
-            <button {% if valid_key %}{% else %} disabled {% endif %} type="submit" id="open-door-button" class="btn btn-lg btn-block btn-primary">ENTER</button>
+            <button {% if valid_key %}{% else %} hidden {% endif %} type="submit" id="open-door-button" class="btn btn-lg btn-block btn-primary">ENTER</button>
         </form>
 
 

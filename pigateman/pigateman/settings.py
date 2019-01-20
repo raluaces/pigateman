@@ -52,7 +52,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'ratelimit.middleware.RatelimitMiddleware'
 ]
+
+RATELIMIT_VIEW = 'doorctl.views.ratelimited'
 
 ROOT_URLCONF = 'pigateman.urls'
 

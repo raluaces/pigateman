@@ -4,6 +4,8 @@ from django.utils import timezone
 from doorctl.models import accessKey
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.http import require_http_methods
+from django.http import HttpResponse
+from django.template import loader
 from ratelimit.decorators import ratelimit
 from django.shortcuts import render
 import time
@@ -89,3 +91,11 @@ def ajax_door(request):
     else:
         response = 'Success'
     return HttpResponse(response, status=200)
+
+
+class HttpResponseTooManyRequests(HttpResponse):
+    status_code = 429
+
+
+def ratelimited(request, exception):
+    return HttpResponse('429 Chill Bro',status=429)

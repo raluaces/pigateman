@@ -36,13 +36,11 @@ function postDoorData(postData) {
             //  console.log('beforeSend');
             document.getElementById("open-door-button").disabled = true;
             document.getElementById("open-door-button").hidden = true;
-            document.getElementById("alertBox").textContent = '';
-            document.getElementById("alertBox").hidden = true;
             try {
+                document.getElementById("alertBox").textContent = '';
+                document.getElementById("alertBox").hidden = true;
                 document.getElementById("keyPadId").hidden = true;
-            }catch(err){
-
-            }
+            }catch(err){}
             document.getElementById("progressWhole").hidden = false;
             document.getElementById("open-door-button").classList.add('btn-success');
             document.getElementById("open-door-button").classList.remove('btn-primary');
@@ -57,18 +55,17 @@ function postDoorData(postData) {
             document.getElementById("open-door-button").classList.remove('btn-success');
             document.getElementById("open-door-button").classList.add('btn-info');
             document.getElementById("progresstimebar").textContent = '';
-            document.getElementById("keypadCard").hidden = false;
-            document.getElementById("messageBody").innerHTML = data;
+            try {
+                document.getElementById("keypadCard").hidden = false;
+                document.getElementById("messageBody").innerHTML = data;
+            } catch {}
         },
         error: function(data, textStatus, errorThrown) {
             // console.log('error: '+data.responseText);
             try {
                 document.getElementById("keyPadId").hidden = false;
-            }catch(err){
-
-            }
+            }catch(err){}
             document.getElementById("progressWhole").hidden = true;
-            document.getElementById("progresstimebar").textContent = '';
             document.getElementById("open-door-button").hidden = false;
             document.getElementById("open-door-button").classList.remove('btn-success');
             document.getElementById("open-door-button").classList.add('btn-danger');
@@ -101,7 +98,7 @@ function ProgressCountdown(timeleft, bar, text) {
             if (timeleft <= 0) {
                 clearInterval(countdownTimer);
                 resolve(true);
-                document.getElementById("progresstimebar").textContent = 'Unlock Cycle Complete';
+                document.getElementById("progressWhole").hidden = true;
             }
             if (document.getElementById("open-door-button").firstChild.data == 'BAD KEY') {
                 clearInterval(countdownTimer);
