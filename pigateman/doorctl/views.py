@@ -4,6 +4,8 @@ from django.utils import timezone
 from doorctl.models import accessKey
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.http import require_http_methods
+from django.core.mail import send_mail
+from pigateman.settings import EMAIL_HOST_USER
 from django.http import HttpResponse
 from django.template import loader
 from ratelimit.decorators import ratelimit
@@ -90,6 +92,13 @@ def ajax_door(request):
         response = key_data['key_object'].instruction_message
     else:
         response = 'Success'
+    if key_data['key_object'].notify:
+        send_mail(
+            'Gate Opened',
+            'Notification of key use to open gate.',
+            EMAIL_HOST_USER,
+            [key_data['key_object'].notify_email]
+        )
     return HttpResponse(response, status=200)
 
 
@@ -99,3 +108,7 @@ class HttpResponseTooManyRequests(HttpResponse):
 
 def ratelimited(request, exception):
     return HttpResponse('429 Chill Bro',status=429)
+
+
+def bad_csrf(request, **kwargs):
+    return HttpResponse('Bad CSRF: {}'.format(kwargs), status=401)

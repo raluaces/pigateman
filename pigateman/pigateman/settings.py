@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 import RPi.GPIO as GPIO
+import configparser
+
+config = configparser.ConfigParser()
+config.read('/etc/pigateman.ini')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,11 +30,16 @@ SECRET_KEY = '(btravo=dph)1qfv8t8ne+hm9dr(of@2z1*sqfnrczupjpgr)='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-LOG_LEVEL = "INFO"
-LOG_FILE = "door.log"
+LOG_LEVEL = config['PiGateMan']['LOG_LEVEL']
+LOG_FILE = config['PiGateMan']['LOG_FILE']
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = config['PiGateMan']['ALLOWED_HOSTS'].split(' ')
 
+EMAIL_HOST = config['Email']['EMAIL_HOST']
+EMAIL_PORT = config['Email']['EMAIL_PORT']
+EMAIL_HOST_USER = config['Email']['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = config['Email']['EMAIL_HOST_PASSWORD']
+EMAIL_USE_SSL = config['Email']['EMAIL_USE_SSL']
 
 # Application definition
 
@@ -56,6 +65,7 @@ MIDDLEWARE = [
 ]
 
 RATELIMIT_VIEW = 'doorctl.views.ratelimited'
+CSRF_FAILURE_VIEW = 'doorctl.views.bad_csrf'
 
 ROOT_URLCONF = 'pigateman.urls'
 

@@ -3,6 +3,7 @@ from django.db import models
 class accessKey(models.Model):
     key = models.CharField(max_length=30, primary_key=True)
     notify = models.BooleanField(default=False)
+    notify_email = models.CharField(max_length=30, blank=True, default='')
     uses = models.BigIntegerField(default=0)
     use_limit = models.BigIntegerField(default=0)
     created = models.DateTimeField(auto_now=True)

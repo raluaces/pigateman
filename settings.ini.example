@@ -1,5 +1,11 @@
+[PiGateMan]
+LOG_LEVEL = ERROR
+LOG_FILE = /var/log/pigateman-door.log
+ALLOWED_HOSTS = example.com sub.example.com
+
 [Email]
-EMAIL_HOST =
-EMAIL_PORT =
-EMAIL_HOST_USER =
-EMAIL_HOST_PASSWORD =
+EMAIL_HOST = myemailprovider.com
+EMAIL_PORT = 465
+EMAIL_HOST_USER = myemail@myemailprovider.com
+EMAIL_HOST_PASSWORD = superSecure
+EMAIL_USE_SSL = True
