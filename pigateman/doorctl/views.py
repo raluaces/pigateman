@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 import RPi.GPIO as GPIO
 from django.utils import timezone
-from doorctl.models import accessKey
+from doorctl.models import accessKey, Door
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.http import require_http_methods
 from django.core.mail import send_mail
@@ -83,15 +83,6 @@ def ajax_door(request):
     key_data = check_key(use_key)
     if not key_data['valid_key']:
         return HttpResponse(key_data['message'], status=401)
-    accessKey.objects.filter(key=use_key).update(uses=key_data['key_object'].uses + 1)
-    logger.info("Door opened with key: {}".format(use_key))
-    GPIO.output(5, 0)
-    time.sleep(key_data['key_object'].unlock_time)
-    GPIO.output(5, 1)
-    if key_data['key_object'].instruction_message is not '':
-        response = key_data['key_object'].instruction_message
-    else:
-        response = 'Success'
     if key_data['key_object'].notify:
         send_mail(
             'Gate Opened',
@@ -99,6 +90,17 @@ def ajax_door(request):
             EMAIL_HOST_USER,
             [key_data['key_object'].notify_email]
         )
+    key = accessKey.objects.filter(key=use_key)
+    door = Door.objects.get(accesskey=key[0])
+    key.update(uses=key_data['key_object'].uses + 1)
+    logger.info("Door: {} opened with key: {}".format(door.name, use_key))
+    GPIO.output(door.gpio_port, 0)
+    time.sleep(key_data['key_object'].unlock_time)
+    GPIO.output(door.gpio_port, 1)
+    if key_data['key_object'].instruction_message is not '':
+        response = key_data['key_object'].instruction_message
+    else:
+        response = 'Success'
     return HttpResponse(response, status=200)
 
 

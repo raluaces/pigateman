@@ -1,4 +1,14 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
+
+
+class Door(models.Model):
+    name = models.CharField(max_length=30, primary_key=True)
+    gpio_port = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(28)])
+
+    def __str__(self):
+        return self.name
+
 
 class accessKey(models.Model):
     key = models.CharField(max_length=30, primary_key=True)
@@ -11,3 +21,8 @@ class accessKey(models.Model):
     unlock_time = models.FloatField(blank=True, default=7.0)
     instruction_message = models.TextField(blank=True)
     internal_comment = models.TextField(blank=True)
+    door = models.ForeignKey(Door, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.key
+
