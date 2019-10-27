@@ -20,7 +20,7 @@ The nginx conf file is included in the deployment directory of this repo( deploy
 
 ## Updating
 - Copy repo contents to /opt/pigateman
-- Update /etc/nginx/sites-enabled/pigateman if applicable.
+- Update /etc/nginx/sites-enabled/pigateman if applicable. ( be sure to update domain name from example domain name in this file )
 - Update /etc/systemd/system/pigateman.service if applicable.
 - Run `systemctl daemon-reload` if the service unit file above was updated.
 - Run systemctl restart pigateman to restart the service post update.
