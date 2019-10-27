@@ -28,18 +28,22 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '(btravo=dph)1qfv8t8ne+hm9dr(of@2z1*sqfnrczupjpgr)='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config['PiGateMan'].getboolean('DEBUG')
 
 LOG_LEVEL = config['PiGateMan']['LOG_LEVEL']
 LOG_FILE = config['PiGateMan']['LOG_FILE']
 
 ALLOWED_HOSTS = config['PiGateMan']['ALLOWED_HOSTS'].split(' ')
 
+CSRF_COOKIE_HTTPONLY = True
+
 EMAIL_HOST = config['Email']['EMAIL_HOST']
 EMAIL_PORT = config['Email']['EMAIL_PORT']
 EMAIL_HOST_USER = config['Email']['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = config['Email']['EMAIL_HOST_PASSWORD']
 EMAIL_USE_SSL = config['Email']['EMAIL_USE_SSL']
+
+USE_X_FORWARDED_HOST = True
 
 # Application definition
 

@@ -4,3 +4,4 @@ venv/
 *.db
 .idea/
 db*
+*.iml
