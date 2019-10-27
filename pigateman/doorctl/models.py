@@ -3,7 +3,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Door(models.Model):
-    name = models.CharField(max_length=30, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=30)
     gpio_port = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(28)])
 
     def __str__(self):
@@ -11,7 +12,7 @@ class Door(models.Model):
 
 
 class accessKey(models.Model):
-    key = models.CharField(max_length=30, primary_key=True)
+    key = models.CharField(max_length=30)
     notify = models.BooleanField(default=False)
     notify_email = models.CharField(max_length=30, blank=True, default='')
     uses = models.BigIntegerField(default=0)

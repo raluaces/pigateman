@@ -109,7 +109,7 @@ class HttpResponseTooManyRequests(HttpResponse):
 
 
 def ratelimited(request, exception):
-    return HttpResponse('429 Chill Bro',status=429)
+    return HttpResponse('429 Rate Limit Exceeded',status=429)
 
 
 def bad_csrf(request, **kwargs):
