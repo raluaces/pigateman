@@ -32,7 +32,7 @@ Before making changes to python packages make sure you activate the venv by runn
 
 # SSL certificate renewal. 
 There is a cronjob configured to renew let's encrypt certificates using certbot.
-`0 0 05 10,26 * ? systemctl stop nginx; certbot certonly --standalone -d entry.luac.es; systemctl start nginx;`
+`0 0 05 10,26 * ? systemctl stop nginx; certbot certonly --standalone -d yourdomain.com; systemctl start nginx;`
 
 
 # Admin 
@@ -40,7 +40,9 @@ There is a cronjob configured to renew let's encrypt certificates using certbot.
  - You can create and manage admin users via django commands https://docs.djangoproject.com/en/2.2/ref/django-admin/#django-admin-createsuperuser
 
 # Exposing externally
-- 
+- You can expose this tool to the outside word by forwarding a port on your router to port 443 of the rasberry pi device. It is highly recommended you configure a static ip for this.
+- Additionally you can expose port 22( or forward any outside port to 22 ) for others to access the linux system on the device via ssh. (TAKE GREAT CAUTION IN DOING SO, NOT ADVISED)
+- Use of a domain is required for the SSL enabled setup. Your internet connection's IP will need to be configured as a DNS A record to your domain of choice.
 
 
 # Relevant Documentation
