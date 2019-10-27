@@ -9,7 +9,7 @@ Deployment is on rasbian, the debian variant for rasberry pis.
 Included is the systemd unit file to run gunicorn as a service. The service is configured to startup with the OS at boot time
 `/etc/systemd/system/pigateman.service`
 To reconfigure this you can run.
-systemctl enable pigateman
+`systemctl enable pigateman` or `systemctl disable pigateman`
 
 The application code is deployed in /opt/pigateman.
 
